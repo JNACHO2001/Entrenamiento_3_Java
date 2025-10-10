@@ -15,7 +15,7 @@ public class Conexion {
 
         config.setJdbcUrl("jdbc:mysql://localhost:3306/tienda_db");
         config.setUsername("root");
-        config.setPassword("Root2025!");
+        config.setPassword("");
 
         config.setMaximumPoolSize(5);
 
