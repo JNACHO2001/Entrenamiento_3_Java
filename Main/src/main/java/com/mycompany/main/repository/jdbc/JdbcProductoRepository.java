@@ -1,6 +1,7 @@
 package com.mycompany.main.repository.jdbc;
 
 import com.mycompany.main.Bd.Conexion;
+import com.mycompany.main.Exepciones.ErrorSistemaExepcion;
 import com.mycompany.main.Exepciones.RegistroDuplicadoException;
 import com.mycompany.main.Models.Producto;
 import com.mycompany.main.repository.IProductoRepo;
@@ -48,10 +49,13 @@ public class JdbcProductoRepository implements IProductoRepo {
             return p;
 
 
-        } catch (SQLException ex) {
-            throw new RegistroDuplicadoException("no se permite duplicados"+ ex) ;
+        }catch (SQLException e ) {
+            if (e.getSQLState().equals("1062")) {
+            } else {
+                throw new RegistroDuplicadoException("ya esta el producto");
+            }
+            throw new ErrorSistemaExepcion("no se pudo crear " +e.getMessage());
         }
-
     }
 
     @Override
