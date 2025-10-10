@@ -6,4 +6,8 @@ public class RegistroDuplicadoException extends RuntimeException {
         super(message);
     }
 
+    public RegistroDuplicadoException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }
