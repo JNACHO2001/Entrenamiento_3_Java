@@ -10,16 +10,16 @@ public class Main {
 
     public static void main(String[] args) {
         
-        /*
+        
         
         
 
         JdbcProductoRepository repo = new JdbcProductoRepository();
-        Producto p = new Producto(6, "ollaspro", 2500, 12);
+        Producto p = new Producto(2,"", 2500, 12);
 
         repo.crear(p);
 
-*/
+
 
     }
 }
