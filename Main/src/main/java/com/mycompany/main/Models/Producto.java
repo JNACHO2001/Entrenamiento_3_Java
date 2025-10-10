@@ -4,7 +4,7 @@ package com.mycompany.main.Models;
 
 public class Producto {
     
-    private int id;
+    private Integer id;
     private String nombre;
     private double  precio;
     private int stock;
