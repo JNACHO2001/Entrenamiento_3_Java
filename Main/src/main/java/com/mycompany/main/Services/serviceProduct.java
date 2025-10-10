@@ -14,11 +14,16 @@ public class serviceProduct implements ProductoServicioI {
 
     @Override
     public Producto crearProducto(Producto p) {
-        if (p == null || p.getNombre() == null || p.getNombre().isBlank()) {
+        if (p == null || p.getNombre() == null || p.getNombre().isEmpty()) {
             throw new DatoInvalidoException("Nombre requerido");
         }
-
+        if (p.getPrecio() < 0) {
+            throw  new DatoInvalidoException("No se permiten numeros menores o igual que 0");
+            
+        }
         return repo.crear(p);
+
+        
 
     }
 
