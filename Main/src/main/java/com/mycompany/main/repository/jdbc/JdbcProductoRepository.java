@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcProductoRepository implements IProductoRepo {
@@ -49,12 +50,58 @@ public class JdbcProductoRepository implements IProductoRepo {
 
     @Override
     public void eliminar(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "DELETE FROM productos WHERE id = ?";
+
+        try (Connection conn = Conexion.getConnection();
+               PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            int rs = ps.executeUpdate();
+            if (rs == 0) {
+                throw new RecursoNoEncontradoExcepcion("No se encontró producto con ID: " + id);
+            }
+
+        } catch (SQLException e) {
+            throw new ErrorSistemaExepcion("Error al eliminar el producto: " + e.getMessage());
+        }
+
     }
 
     @Override
     public List<Producto> buscarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "SELECT * FROM productos";
+        ArrayList<Producto> productos = new ArrayList<>();
+
+        try {
+            Connection conn = Conexion.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                Producto p = new Producto();
+                p.setId(rs.getInt("id"));
+                p.setNombre(rs.getString("nombre"));
+                p.setPrecio(rs.getDouble("precio"));
+                p.setStock(rs.getInt("stock"));
+
+                productos.add(p);
+
+            }
+            
+            if (productos.isEmpty()) {
+                throw  new RecursoNoEncontradoExcepcion("No se encontro ningun producto");
+                
+            }
+            return productos;
+
+            
+        } catch (SQLException e) {
+            throw  new ErrorSistemaExepcion("Error al buscar los productos " + e.getMessage());
+        }
+        
+        
     }
 
     @Override
@@ -87,7 +134,32 @@ public class JdbcProductoRepository implements IProductoRepo {
     }
 
     @Override
-    public Producto actualizar(Producto entidad) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Producto actualizar(Producto p) {
+        String sql = "UPDATE productos SET nombre = ?, precio = ?, stock = ? WHERE id = ?";
+        try (Connection conn = Conexion.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, p.getNombre());
+            ps.setDouble(2, p.getPrecio());
+            ps.setInt(3, p.getStock());
+            ps.setInt(4, p.getId());
+
+            int rs = ps.executeUpdate();
+
+            if (rs == 0) {
+                throw new RecursoNoEncontradoExcepcion("No se encontró producto con ID: " + p.getId());
+
+            }
+
+            return p;
+
+        } catch (SQLException e) {
+            if (e.getErrorCode() == 1062) {
+                throw new RegistroDuplicadoException("El nombre del producto ya existe " + p.getNombre());
+
+            }
+            throw new ErrorSistemaExepcion("Error al actualizar el producto: " + e.getMessage());
+
+        }
+
     }
 }
