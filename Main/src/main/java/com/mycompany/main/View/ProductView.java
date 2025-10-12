@@ -149,6 +149,19 @@ public class ProductView {
     }
 
     private void eliminarProducto() {
-        JOptionPane.showMessageDialog(null, "Funcionalidad en desarrollo...");
+
+        try {
+
+            String input = JOptionPane.showInputDialog(null, "Ingrese el ID del producto:");
+
+            int id = Integer.parseInt(input);
+            //Aqui llamamos a servicio y pedomos el metodo que necesitamos 
+            servicio.eliminarProducto(id);
+            JOptionPane.showMessageDialog(null, "PRODUCTO ELIMINADO");
+
+        } catch (RecursoNoEncontradoExcepcion e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
     }
 }
