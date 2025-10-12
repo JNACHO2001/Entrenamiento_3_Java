@@ -138,7 +138,7 @@ public class ProductView {
             JOptionPane.showMessageDialog(null, lista, "Productos Registrados", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (RecursoNoEncontradoExcepcion e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage(),"VACIO",JOptionPane.WARNING_MESSAGE);
         }
 
     }
