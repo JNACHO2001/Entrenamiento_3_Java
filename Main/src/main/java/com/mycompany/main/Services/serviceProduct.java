@@ -1,6 +1,7 @@
 package com.mycompany.main.Services;
 
 import com.mycompany.main.Exepciones.DatoInvalidoException;
+import com.mycompany.main.Exepciones.RecursoNoEncontradoExcepcion;
 import com.mycompany.main.Models.Producto;
 import com.mycompany.main.repository.jdbc.JdbcProductoRepository;
 import java.util.List;
@@ -32,7 +33,11 @@ public class serviceProduct implements ProductoServicioI {
 
     @Override
     public Producto buscarProductoPorId(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (id <=0) {
+            throw  new RecursoNoEncontradoExcepcion("El producto con este ID no se encuantra " + id);
+            
+        }
+        return repo.buscarPorId(id);
     }
 
     @Override
