@@ -121,7 +121,7 @@ public class JdbcProductoRepository implements IProductoRepo {
 
         } catch (SQLException e) {
             if (e.getErrorCode() == 1062) {
-                throw new RegistroDuplicadoException("Y existe el producto.");
+                throw new RegistroDuplicadoException("Ya existe el producto.");
 
             } else {
                 throw new ErrorSistemaExepcion("no se pudo crear " + e.getMessage());
