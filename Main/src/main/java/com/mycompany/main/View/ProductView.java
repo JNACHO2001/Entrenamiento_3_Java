@@ -7,6 +7,7 @@ import com.mycompany.main.repository.jdbc.JdbcProductoRepository;
 import com.mycompany.main.Exepciones.ErrorSistemaExepcion;
 import com.mycompany.main.Exepciones.RecursoNoEncontradoExcepcion;
 import com.mycompany.main.Exepciones.RegistroDuplicadoException;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class ProductView {
@@ -59,10 +60,6 @@ public class ProductView {
     private void buscarPorId() {
         try {
             String input = JOptionPane.showInputDialog(null, "Ingrese el ID del producto:");
-            if (input == null || input.trim().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Debe ingresar un ID.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
 
             int id = Integer.parseInt(input);
             //Aqui llamamos a servicio y pedomos el metodo que necesitamos 
@@ -91,20 +88,24 @@ public class ProductView {
     // ---------------------- OPCIONES FUTURAS ----------------------
     private void agregarProducto() {
         try {
-            String nombre = JOptionPane.showInputDialog(this, "Ingrese el nombre del producto");
-            String precioText = JOptionPane.showInputDialog(this, "Ingrese el precio del producto");
+            String nombre = JOptionPane.showInputDialog(null, "Ingrese el nombre del producto");
+            String precioText = JOptionPane.showInputDialog(null, "Ingrese el precio del producto");
             double precio = Double.parseDouble(precioText);
-            String stockText = JOptionPane.showInputDialog(this, "Ingrese la cantidad  del producto");
+            String stockText = JOptionPane.showInputDialog(null, "Ingrese la cantidad  del producto");
             int stock = Integer.parseInt(stockText);
             Producto producto = new Producto(nombre, precio, stock);
             Producto creado = servicio.crearProducto(producto);
+            
+              String mensaje = """
+                                 === Producto Creado ===
+                                 ID: %d
+                                 Nombre: %s
+                                 Precio: %.2f
+                                 Stock: %d
+                                 """.formatted(creado.getId(), creado.getNombre(), creado.getPrecio(), creado.getStock());
+                JOptionPane.showMessageDialog(null, mensaje, "Producto Creado", JOptionPane.INFORMATION_MESSAGE);
 
-            JOptionPane.showMessageDialog(null, """
-                                                Producto agregado correctamente:
-                                                ID: """ + creado.getId() + "\n"
-                    + "Nombre: " + creado.getNombre() + "\n"
-                    + "Precio: " + creado.getPrecio() + "\n"
-                    + "Stock: " + creado.getStock());
+        
         } catch (RegistroDuplicadoException e) {
             JOptionPane.showMessageDialog(null, "Error:" + e.getMessage(), "Error de negocio", JOptionPane.WARNING_MESSAGE);
         } catch (NumberFormatException e) {
@@ -121,7 +122,26 @@ public class ProductView {
     }
 
     private void listarProductos() {
-        JOptionPane.showMessageDialog(null, "Funcionalidad en desarrollo...");
+        try {
+
+            List<Producto> productos = servicio.listarProductos();
+            String lista = "Lsita de productos:\n\n ";
+
+            for (Producto p : productos) {
+                lista += "ID:  " + p.getId() + "\n"
+                        + "Nombre:  " + p.getNombre() + "\n"
+                        + "Precio:  " + p.getPrecio() + "\n"
+                        + "Stock:  " + p.getStock() + "\n"
+                        + "---------------------------------------------------\n";
+
+            }
+
+            JOptionPane.showMessageDialog(null, lista, "Productos Registrados", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (RecursoNoEncontradoExcepcion e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
     }
 
     private void actualizarProducto() {
