@@ -199,7 +199,7 @@ public class ProductView {
             
             //Aqui llamamos a servicio y pedomos el metodo que necesitamos 
             servicio.eliminarProducto(id);
-            JOptionPane.showMessageDialog(null, "PRODUCTO ELIMINADO");
+            JOptionPane.showMessageDialog(null, "Producto elimnado","EXITO",JOptionPane.YES_OPTION);
 
         } catch (RecursoNoEncontradoExcepcion e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
