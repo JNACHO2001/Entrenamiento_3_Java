@@ -37,7 +37,7 @@ public class JdbcProductoRepository implements IProductoRepo {
                     return p;
 
                 } else {
-                    throw new RecursoNoEncontradoExcepcion("No se encontro el producto" + id);
+                    throw new RecursoNoEncontradoExcepcion("No se encontro el producto con este ID: " + id);
                 }
 
             }
@@ -52,8 +52,7 @@ public class JdbcProductoRepository implements IProductoRepo {
     public void eliminar(Integer id) {
         String sql = "DELETE FROM productos WHERE id = ?";
 
-        try (Connection conn = Conexion.getConnection();
-               PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = Conexion.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
 
@@ -89,19 +88,17 @@ public class JdbcProductoRepository implements IProductoRepo {
                 productos.add(p);
 
             }
-            
+
             if (productos.isEmpty()) {
-                throw  new RecursoNoEncontradoExcepcion("No se encontro ningun producto");
-                
+                throw new RecursoNoEncontradoExcepcion("No se encontro ningun producto");
+
             }
             return productos;
 
-            
         } catch (SQLException e) {
-            throw  new ErrorSistemaExepcion("Error al buscar los productos " + e.getMessage());
+            throw new ErrorSistemaExepcion("Error al buscar los productos " + e.getMessage());
         }
-        
-        
+
     }
 
     @Override
