@@ -95,17 +95,16 @@ public class ProductView {
             int stock = Integer.parseInt(stockText);
             Producto producto = new Producto(nombre, precio, stock);
             Producto creado = servicio.crearProducto(producto);
-            
-              String mensaje = """
+
+            String mensaje = """
                                  === Producto Creado ===
                                  ID: %d
                                  Nombre: %s
                                  Precio: %.2f
                                  Stock: %d
                                  """.formatted(creado.getId(), creado.getNombre(), creado.getPrecio(), creado.getStock());
-                JOptionPane.showMessageDialog(null, mensaje, "Producto Creado", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, mensaje, "Producto Creado", JOptionPane.INFORMATION_MESSAGE);
 
-        
         } catch (RegistroDuplicadoException e) {
             JOptionPane.showMessageDialog(null, "Error:" + e.getMessage(), "Error de negocio", JOptionPane.WARNING_MESSAGE);
         } catch (NumberFormatException e) {
@@ -145,7 +144,48 @@ public class ProductView {
     }
 
     private void actualizarProducto() {
-        JOptionPane.showMessageDialog(null, "Funcionalidad en desarrollo...");
+
+        try {
+            String input = JOptionPane.showInputDialog(null, "Ingrese el ID del producto:");
+            int id = Integer.parseInt(input);
+
+            Producto producto = servicio.buscarProductoPorId(id);
+
+            String precioText = JOptionPane.showInputDialog(null,
+                    "Precio actual: " + producto.getPrecio() + "\nIngrese el nuevo precio");
+            producto.setPrecio(Double.parseDouble(precioText));
+            String stockText = JOptionPane.showInputDialog(null,
+                    "Stock actual: " + producto.getStock() + "\nIngrese el nuevo stock");
+            producto.setStock(Integer.parseInt(stockText));
+            Producto actualizado = servicio.actualizarProducto(producto);
+            
+            JOptionPane.showMessageDialog(null,
+                    """
+                 Producto actualizado correctamente:
+                ID: """ + actualizado.getId() + "\n"
+                    + "Nombre: " + actualizado.getNombre() + "\n"
+                    + "Precio: " + actualizado.getPrecio() + "\n"
+                    + "Stock: " + actualizado.getStock(),
+                    "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (RecursoNoEncontradoExcepcion e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Producto no Encontrado", JOptionPane.WARNING_MESSAGE);
+        } catch (DatoInvalidoException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(),
+                    "Error de datos", JOptionPane.WARNING_MESSAGE);
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null,
+                    "Debe ingresar valores numéricos válidos donde corresponde.",
+                    "Error de formato", JOptionPane.ERROR_MESSAGE);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                    "Error inesperado: " + e.getMessage(),
+                    "Error del sistema", JOptionPane.ERROR_MESSAGE);
+
+        }
+
     }
 
     private void eliminarProducto() {
@@ -155,6 +195,8 @@ public class ProductView {
             String input = JOptionPane.showInputDialog(null, "Ingrese el ID del producto:");
 
             int id = Integer.parseInt(input);
+            
+            
             //Aqui llamamos a servicio y pedomos el metodo que necesitamos 
             servicio.eliminarProducto(id);
             JOptionPane.showMessageDialog(null, "PRODUCTO ELIMINADO");
