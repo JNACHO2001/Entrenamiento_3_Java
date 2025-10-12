@@ -34,7 +34,7 @@ public class ProductView {
                           """;
 
             try {
-                String input = JOptionPane.showInputDialog(null, menu, "Gestión de Productos", JOptionPane.PLAIN_MESSAGE);
+                String input = JOptionPane.showInputDialog(null, menu, "Bienvenido", JOptionPane.PLAIN_MESSAGE);
 
                 if (input == null) break; // Usuario canceló
                 opcion = Integer.parseInt(input);
