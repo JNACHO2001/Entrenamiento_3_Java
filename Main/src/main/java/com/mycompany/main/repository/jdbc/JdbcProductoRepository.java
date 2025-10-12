@@ -89,10 +89,6 @@ public class JdbcProductoRepository implements IProductoRepo {
 
             }
 
-            if (productos.isEmpty()) {
-                throw new RecursoNoEncontradoExcepcion("No se encontro ningun producto");
-
-            }
             return productos;
 
         } catch (SQLException e) {
