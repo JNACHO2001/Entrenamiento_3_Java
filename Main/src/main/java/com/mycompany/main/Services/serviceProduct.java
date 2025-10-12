@@ -33,10 +33,7 @@ public class serviceProduct implements ProductoServicioI {
 
     @Override
     public Producto buscarProductoPorId(int id) {
-        if (id <=0) {
-            throw  new RecursoNoEncontradoExcepcion("El producto con este ID no se encuantra " + id);
-            
-        }
+
         return repo.buscarPorId(id);
     }
 
