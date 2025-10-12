@@ -45,7 +45,7 @@ public class ProductView {
                     case 3 -> actualizarProducto();
                     case 4 -> eliminarProducto();
                     case 5 -> buscarPorId();
-                    case 6 -> JOptionPane.showMessageDialog(null, "Saliendo del sistema...","BAY BAY ",JOptionPane.WARNING_MESSAGE);
+                    case 6 -> JOptionPane.showMessageDialog(null, "Suerte para la proxima","Saliendo del sistema...",JOptionPane.WARNING_MESSAGE);
                     default -> JOptionPane.showMessageDialog(null, "Opción no válida", "Error", JOptionPane.WARNING_MESSAGE);
                 }
 
