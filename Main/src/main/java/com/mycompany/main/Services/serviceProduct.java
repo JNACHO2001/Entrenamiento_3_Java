@@ -42,17 +42,42 @@ public class serviceProduct implements ProductoServicioI {
 
     @Override
     public List<Producto> listarProductos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<Producto> productos = repo.buscarTodos();
+
+        if (productos.isEmpty()) {
+            throw new RecursoNoEncontradoExcepcion("No existen productos  " );
+
+        }
+        
+        return  productos;
+
     }
 
     @Override
     public Producto actualizarProducto(Producto p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        if (p == null  || p.getId() <= 0) {
+            throw new DatoInvalidoException("Debe indicar un producto válido con ID.");
+        }
+        if (p.getNombre() == null || p.getNombre().isEmpty()) {
+            throw new DatoInvalidoException("El nombre del producto es obligatorio.");
+        }
+        if (p.getPrecio() <= 0) {
+            throw new DatoInvalidoException("El precio debe ser mayor que 0.");
+        }
+        
+        return repo.actualizar(p);
     }
 
     @Override
     public void eliminarProducto(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        if (id <= 0) {
+            throw new RecursoNoEncontradoExcepcion("El producto con este ID no se encuantra " + id);
+            
+        }
+        
+        repo.eliminar(id);
     }
-
+    
 }
