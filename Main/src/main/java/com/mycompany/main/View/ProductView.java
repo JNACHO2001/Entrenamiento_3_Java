@@ -45,7 +45,7 @@ public class ProductView {
                     case 3 -> actualizarProducto();
                     case 4 -> eliminarProducto();
                     case 5 -> buscarPorId();
-                    case 6 -> JOptionPane.showMessageDialog(null, "Saliendo del sistema...");
+                    case 6 -> JOptionPane.showMessageDialog(null, "Saliendo del sistema...","BAY BAY ",JOptionPane.WARNING_MESSAGE);
                     default -> JOptionPane.showMessageDialog(null, "Opción no válida", "Error", JOptionPane.WARNING_MESSAGE);
                 }
 
@@ -202,7 +202,7 @@ public class ProductView {
             JOptionPane.showMessageDialog(null, "Producto elimnado","EXITO",JOptionPane.YES_OPTION);
 
         } catch (RecursoNoEncontradoExcepcion e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage(),"VACIO",JOptionPane.WARNING_MESSAGE);
         }
 
     }
